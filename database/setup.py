@@ -1,5 +1,8 @@
 import sqlite3
 from sqlite3 import Error
+from typing import List
+from models import Table
+from functions import get_locations
 
 DATABASE = r'database.db'
 
@@ -69,6 +72,28 @@ def create_tables():
         for table in tables:
             c.execute(table)
 
+def insert_table(table: str, data: List[Table]):
+    """
+    Insert a list of table objects into the database
+    """
+    
+    data = list(map(lambda obj: obj.get_data(), data))
+
+    length = len(data[0])
+
+    val_str = ''
+    for _ in range(length):
+        val_str += '?, ' if _ != length -1 else '?'
+
+    with create_connection(DATABASE) as conn:
+        c = conn.cursor()
+
+        c.executemany(f"INSERT or IGNORE INTO {table} VALUES({val_str})", data)
+        conn.commit()
+
+
+
 
 if __name__ == '__main__':
     create_tables()
+    insert_table('locations', get_locations())

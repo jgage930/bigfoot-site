@@ -10,13 +10,34 @@ class Table:
 		dict = self.__dict__
 		return tuple(list(dict))
 
+	def __eq__(self, __o: object) -> bool:
+		dict_1 = self.__dict__
+		dict_2 = __o.__dict__
+
+		del dict_1['id']
+		del dict_2['id']
+
+		print(dict_1)
+		print(dict_2)
+
+		return dict_2 == dict_1
 
 @dataclass
 class Location(Table):
 	id: int
-	country: str
 	state: str
 	county: str
+	country: str = "United States"
+
+
+	def __eq__(self, __o: object) -> bool:
+		dict_1 = self.__dict__
+		dict_2 = __o.__dict__
+
+		del dict_1['id']
+		del dict_2['id']
+
+		return dict_2 == dict_1
 
 @dataclass
 class FollowUp(Table):
