@@ -5,39 +5,23 @@ import './App.css';
 
 function Sighting () {
 
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState({'hey': 'yes'});
 
-  const message = async () => {
-    try {
-      let res = await axios.get("http://127.0.0.1:8000/sightings/98");
-      let result = res.data;
-      setResult(result);
-    } catch(e) {
-      console.log('error');
-    }
+  const getData = async () => {
+    let res = await axios.get('http://127.0.0.1:8000/sightings/3');
+    setResult(res.data);
   }
 
-  useEffect( () => {
-    message()
+  useEffect(() =>{
+    getData()
   }, [])
 
-  let sightingData = result.sightings[0];
-  console.log({sightingData});
-  
+  console.log(result);
+
   return(
     <div>
       <h3>Sighting</h3>
       <p>sighting data</p>
-
-      {Object.keys(sightingData).map((key, index) => {
-        return (
-          <div key={index}>
-            <h2>{key}</h2>
-            <br></br>
-            <p>{sightingData[key]}</p>
-          </div>
-        );
-      })}
     </div>
   );
 }
