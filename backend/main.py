@@ -2,12 +2,29 @@ from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
+from starlette.middleware.cors import CORSMiddleware
+
 ## Read Methods ##
 from database.read import (
 	read_all_sightings, read_sighting, read_sighting_by_county, read_sightings_by_state, get_county_names
 )
 
+
 app = FastAPI()
+
+# middle ware
+origins = [
+	'http://localhost:3000'
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 @app.get('/sightings')
 def get_sightings(limit: int):
