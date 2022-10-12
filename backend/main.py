@@ -3,7 +3,9 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
 ## Read Methods ##
-from database.read import read_all_sightings, read_sighting, read_sighting_by_county, read_sightings_by_state
+from database.read import (
+	read_all_sightings, read_sighting, read_sighting_by_county, read_sightings_by_state, get_county_names
+)
 
 app = FastAPI()
 
@@ -32,3 +34,8 @@ def get_sightings_by_state(state: str):
 
 	obj = jsonable_encoder(read_sightings_by_state(state))
 	return JSONResponse(content=obj)
+
+@app.get('/state_data')
+def get_state_data():
+	""" Return a list of counties by state """
+	return get_county_names()
