@@ -1,36 +1,37 @@
-from models import Location
-from typing import List
-import pandas as pd
+import json
+from database.models import Sighting
 
-def get_locations() -> List[Location]:
-	"""
-		parses locationdata.txt and returns a lsit of location objects
-	"""
+def parse_reports():
 
-	df = pd.read_csv(
-		"location_data.txt",
-		sep="|",
-		header=None,
-		names=["_", "abv", "state", "county", "town"]
+	with open('reports.json') as f:
+		data = json.load(f)
 
-	)
+	report_data = data['reports']
 
+	valid_keys = list(Sighting.__dict__['__annotations__'].keys())
 	
-	location_data = df[["state", "county"]]
-	location_data = location_data.drop_duplicates("county")
-
-	locations = []
 	id = 1
-	for row in location_data.itertuples(index=False):
-		state, county = row
-		location = Location(id=id, state=state, county=county)
-		locations.append(location)
+	sightings = []
+	for report in report_data:
+		
+		valid_keys = list(Sighting.__dict__['__annotations__'].keys())
+		sighting_data = report['sighting_data']
+		location_data = report['location_data']
 
+		keys_to_add = []
+
+		clean_data = {}
+
+		for key in sighting_data:
+			if key in valid_keys:
+				clean_data[key] = sighting_data[key]
+
+
+		clean_data['county'] = location_data['county']
+		clean_data['state'] = location_data['state']
+
+		sighting = Sighting(id=id, **clean_data)
+		sightings.append(sighting)
 		id += 1
-
-	return locations
-
-def get_sightings():
-	"""
-	parse sightings and read into a list of objects
-	"""
+		
+	return sightings

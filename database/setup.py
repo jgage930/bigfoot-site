@@ -1,8 +1,6 @@
 import sqlite3
 from sqlite3 import Error
-from typing import List
-from models import Table
-from functions import get_locations
+from database.functions import parse_reports
 
 DATABASE = r'database.db'
 
@@ -20,36 +18,18 @@ def create_connection(db_file):
 def create_tables():
     tables = []
 
-    locations_table = """
-        CREATE TABLE IF NOT EXISTS locations (
-            id integer PRIMARY KEY,
-            country text,
-            state text,
-            county text
-        ) 
-    """
-    tables.append(locations_table)
-
-    follow_ups_table = """
-        CREATE TABLE IF NOT EXISTS follow_ups (
-            id integer PRIMARY KEY,
-            title text,
-            content text
-        )
-    """
-    tables.append(follow_ups_table)
-
     sightings_table = """
         CREATE TABLE IF NOT EXISTS sightings (
-            id integer PRIMARY KEY,
+            id integer primary key autoincrement,
             report_id text,
-            class text,
+            class_ text,
             date_submitted text,
             subtitle text,
             year text,
             season text,
             month text,
             date text,
+            location_details text,
             nearest_town text,
             nearest_road text,
             observed text,
@@ -58,9 +38,9 @@ def create_tables():
             other_stories text,
             time_and_conditions text,
             environment text,
-            misc text,
-            location_id integer NOT NULL,
-            follow_up_id integer NOT NULL
+            county txt,
+            state txt,
+            country txt
         )
 
     """
@@ -72,7 +52,7 @@ def create_tables():
         for table in tables:
             c.execute(table)
 
-def insert_table(table: str, data: List[Table]):
+def insert_table(table: str, data: list):
     """
     Insert a list of table objects into the database
     """
@@ -88,12 +68,5 @@ def insert_table(table: str, data: List[Table]):
     with create_connection(DATABASE) as conn:
         c = conn.cursor()
 
-        c.executemany(f"INSERT or IGNORE INTO {table} VALUES({val_str})", data)
+        c.executemany(f"INSERT INTO {table} VALUES({val_str})", data)
         conn.commit()
-
-
-
-
-if __name__ == '__main__':
-    create_tables()
-    insert_table('locations', get_locations())
