@@ -3,14 +3,14 @@ from database.models import Sighting
 
 def parse_reports():
 
-	with open('reports.json') as f:
+	with open(r'/home/jgage/Documents/Projects/bigfoot-site/database/reports.json') as f:
 		data = json.load(f)
 
 	report_data = data['reports']
 
 	valid_keys = list(Sighting.__dict__['__annotations__'].keys())
 	
-	id = 1
+	
 	sightings = []
 	for report in report_data:
 		
@@ -30,8 +30,8 @@ def parse_reports():
 		clean_data['county'] = location_data['county']
 		clean_data['state'] = location_data['state']
 
-		sighting = Sighting(id=id, **clean_data)
+		sighting = Sighting(**clean_data)
 		sightings.append(sighting)
-		id += 1
+		
 		
 	return sightings
