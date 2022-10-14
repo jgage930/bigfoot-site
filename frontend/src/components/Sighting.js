@@ -31,7 +31,8 @@ function Sighting () {
 
   return(
     <div>
-	    <span className="locationNav">{result.country} {'>'} {result.state} {">"} {result.county}</span>
+	    
+      <span className="locationNav">{result.country} {'>'} {result.state} {">"} {result.county}</span>
 		<section className="sightingHeader">
 			<span id="title">Report ID #{result.report_id}</span><span id="class">{result.class_}</span>
 			<br></br>

@@ -21,8 +21,6 @@ function StateDetails () {
 
 	useEffect(() => {getData()}, []);
 
-	console.log({ids});
-
 	return (
 		<div className="state">
 			<h3>{state_name} Sightings</h3>
