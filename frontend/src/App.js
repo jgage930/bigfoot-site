@@ -5,6 +5,7 @@ import './App.css';
 // components
 import Home from './components/Home';
 import Country from './components/Country';
+import StateDetails from './components/StateDetails';
 
 
 function App() {
@@ -13,12 +14,19 @@ function App() {
       <div className='App'>
         <div className='content'>
           <Switch>
+
             <Route exact path='/'>
               <Home />
             </Route>
-            <Route exact path='/usa'>
+
+            <Route path='/usa'>
               <Country />
             </Route>
+
+            <Route path="/state_details/:state_name">
+              <StateDetails />
+            </Route>
+
           </Switch>
         </div>
       </div>

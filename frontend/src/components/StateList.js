@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 const StateList = (props) => {
 	let stateData = props.stateData;
@@ -6,7 +7,9 @@ const StateList = (props) => {
 	return (
 		<div className="state-list">
 			{stateData.map((stateName) =>(
-				<p>{stateName}</p>
+				<Link to={'/state_details/' + stateName}>
+					<p>{stateName}</p>
+				</Link>
 			))}
 		</div>
 	)
