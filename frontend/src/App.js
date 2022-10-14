@@ -6,6 +6,7 @@ import './App.css';
 import Home from './components/Home';
 import Country from './components/Country';
 import StateDetails from './components/StateDetails';
+import Sighting from './components/Sighting';
 
 
 function App() {
@@ -25,6 +26,10 @@ function App() {
 
             <Route path="/state_details/:state_name">
               <StateDetails />
+            </Route>
+
+            <Route path="/sighting/:sighting_id">
+              <Sighting />
             </Route>
 
           </Switch>

@@ -1,12 +1,15 @@
 import axios from "axios";
 import React, {useState, useEffect} from 'react';
+import { useParams } from "react-router-dom";
 
 function Sighting () {
+
+  const { sighting_id } = useParams();
 
   const [result, setResult] = useState({'hey': 'yes'});
 
   const getData = async () => {
-    let res = await axios.get('http://127.0.0.1:8000/sightings/101');
+    let res = await axios.get('http://127.0.0.1:8000/sightings/' + sighting_id);
     
     let data = res.data;
     let final = data.sightings[0];
