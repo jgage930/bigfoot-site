@@ -1,9 +1,8 @@
 FROM python:3.8
 WORKDIR /app
 
-ENV POETRY_VERSION=0.1.0
 
-RUN pip install 'poetry==${POETRY_VERSION}'
+RUN pip install poetry
 
 COPY poetry.lock poety.toml /app/
 
